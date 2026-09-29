@@ -1,5 +1,7 @@
 # SSH hardening
 
+*September 21, 2026*
+
 This is how I lock down SSH on my Ubuntu servers so the only way in is with
 my private key. No passwords, no root login, only my user.
 
@@ -19,7 +21,7 @@ the last step confirms you can still log in.
 In the commands below, replace:
 
 - `admin` with your username on the server
-- `<server-ip>` with your server's IP
+- `<server-ip>` with your server's LAN IP
 
 ## 1. Make a key on your workstation
 
@@ -202,7 +204,7 @@ This is the same place Safari and Wi-Fi keep their passwords. It's fine for
 a homelab. If you ever want to forget it:
 
 ```bash
-ssh-add --delete ~/path/to/key           # unload from the agent
+ssh-add --delete ~/path/to/key               # unload from the agent
 security delete-generic-password -l "SSH: ~/path/to/key" 2>/dev/null
 ```
 

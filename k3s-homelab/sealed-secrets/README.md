@@ -1,5 +1,7 @@
 # Sealed Secrets: keeping secrets in a public GitOps repo
 
+*September 22, 2026*
+
 My homelab cluster is managed from a public GitHub repo ([homelab33](https://github.com/jddemonteverde/homelab33)). Argo CD watches `main` and applies whatever is there, so every file I commit is both live in the cluster and visible to the whole internet. That's fine for Deployments and Ingresses. It is not fine for Forgejo's `SECRET_KEY`, database passwords, or anything else that has to reach a pod as a Kubernetes `Secret`.
 
 This is how I solved that with Sealed Secrets: what it is, why I picked it over the alternatives, how the controller gets installed through Argo CD, and the exact commands I use to turn a plaintext value into something I can commit.

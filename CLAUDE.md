@@ -1,10 +1,45 @@
 # Blog Writing Style
 
+I am the writer of this blog, and its audience is public. Most posts describe how I set up and run my own systems, such as my homelab, so that other engineers can learn from them or build something similar.
+
+Posts are written in my voice. "I" in a post always refers to me.
+
 These posts exist primarily to share knowledge and document things learned while working with technology.
 
 Write as an engineer sharing something useful with another engineer.
 
 The goal is not to produce exhaustive tutorials, definitive guides, or long-form educational content. Each post should capture one useful idea, technique, problem, solution, or lesson clearly enough that another person can understand it and use it.
+
+## Keeping Private Details Out
+
+Anyone can read these posts. Show how I set things up without revealing the details of my real environment.
+
+Never publish:
+
+* **Addresses:** IP and MAC addresses of my machines, whether LAN, public, or Tailscale.
+* **Names:** real hostnames, internal domains, tailnet names, and my login usernames.
+* **Accounts:** email addresses, cloud account IDs, and ARNs or URLs that contain them.
+* **Secrets:** keys, tokens, passwords, kubeconfigs, runner registration details, and decoded `Secret` values.
+* **Local paths:** where my private keys and backups actually live.
+* **Unfixed weaknesses:** gaps in my setup that are still open, such as a stale rule left in a live policy.
+
+This applies to prose, commands, command output, config files, and screenshots.
+
+Use placeholders instead:
+
+* **Values the reader must replace:** angle-bracket placeholders such as `<server-ip>`, `<tailscale-ip>`, and `<token>`. List them near the top of the post.
+* **Everything else:** generic names such as `admin`, `node-01`, `homelab`, and `example.com`.
+
+Scripts and configs next to a post are my real files with private values replaced by placeholders.
+
+Fine to show:
+
+* Well-known defaults, such as the k3s pod and service CIDRs.
+* A common subnet such as `192.168.1.0/24` as a script default, where a placeholder would break the script.
+* Problems I have already fixed, such as how a server was configured before hardening.
+* Links to my own public repositories.
+
+Before finishing a post, search it and the files next to it for IP addresses, hostnames, usernames, and paths.
 
 ## Writing Philosophy
 
@@ -75,6 +110,18 @@ Avoid exaggerated titles such as:
 `Master Kubernetes Security`
 
 Do not describe a post as an "ultimate", "complete", or "comprehensive" guide unless it genuinely is one.
+
+## Date
+
+Put the date I wrote the post in italics on the line after the title:
+
+```markdown
+# Using OIDC to Authenticate GitHub Actions with AWS
+
+*September 21, 2026*
+```
+
+Use the date of the commit that first added the post. If the post is not committed yet, use today's date.
 
 ## Opening
 

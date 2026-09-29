@@ -1,15 +1,19 @@
 # Setting up k3s on my homelab
 
+*September 22, 2026*
+
 I had an old PC and a laptop collecting dust, so I turned them into a small Kubernetes cluster to host stuff like Forgejo and my portfolio site. This is how I set it up and, more importantly, why I made the choices I did. Writing it down so I don't forget and so I can redo it if I ever nuke the thing.
 
 ## The hardware
 
-| Node | Machine | Role | IP |
-|---|---|---|---|
-| `node-01` | Old PC (4 CPU, 8 GB RAM, 256 GB SSD) | control plane + etcd | <server-ip> |
-| `node-02` | Old laptop | worker | <worker-ip> |
+| Node | Machine | Role |
+|---|---|---|
+| `node-01` | Old PC (4 CPU, 8 GB RAM, 256 GB SSD) | control plane + etcd |
+| `node-02` | Old laptop | worker |
 
 Both run Ubuntu 22.04 and stay on 24/7. k3s version at the time of writing: `v1.36.4+k3s1`.
+
+In the commands below, `<server-ip>` is the PC's LAN IP, `<worker-ip>` is the laptop's, and `<lan-cidr>` is the LAN subnet. Replace them with your own.
 
 ## Why k3s
 
@@ -197,7 +201,7 @@ Just makes `kubectl get nodes` show `worker` instead of `<none>` under ROLES.
 ## Where I ended up
 
 ```
-NAME          STATUS   ROLES                VERSION        INTERNAL-IP
+NAME      STATUS   ROLES                VERSION        INTERNAL-IP
 node-01   Ready    control-plane,etcd   v1.36.4+k3s1   <server-ip>
 node-02   Ready    worker               v1.36.4+k3s1   <worker-ip>
 ```

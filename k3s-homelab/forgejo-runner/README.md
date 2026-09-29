@@ -1,5 +1,7 @@
 # Running the Forgejo Runner in Kubernetes with a Docker-in-Docker Sidecar
 
+*September 24, 2026*
+
 Forgejo doesn't run CI jobs itself. A separate program, Forgejo Runner, asks the instance for jobs and runs each one in a container.
 
 Forgejo's [Docker installation guide](https://forgejo.org/docs/v15.0/admin/actions/installation/docker/) sets it up with Docker Compose: a `docker:dind` daemon plus a runner container that talks to it. My cluster is k3s, managed by Argo CD from a [public repo](https://github.com/jddemonteverde/homelab33), so I translated that setup into one Kubernetes pod. A few details had to change along the way.

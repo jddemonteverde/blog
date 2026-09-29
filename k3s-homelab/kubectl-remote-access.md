@@ -1,8 +1,10 @@
 # Using kubectl on my homelab from my laptop
 
+*September 22, 2026*
+
 Once k3s was running I didn't want to SSH into the server every time I wanted to run `kubectl`. This is how I made the cluster reachable from my working machine. I already had kubectl installed and a `~/.kube/config` with other clusters in it, so the goal was to add the homelab alongside them without breaking anything.
 
-In this guide the server is `node-01` at `<server-ip>`. Swap in your own.
+In this guide the server is `node-01`. Replace `<server-ip>` with its LAN IP.
 
 ## The problem with the default kubeconfig
 

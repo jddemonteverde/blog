@@ -1,5 +1,7 @@
 # Homelab server security
 
+*September 21, 2026*
+
 This is how I secure my Ubuntu servers at home before they run anything
 important. There are two parts, and they need to be done in this order:
 
@@ -41,7 +43,7 @@ If you've done this before and just need the commands:
 # --- SSH (from your workstation) ---
 ssh-keygen -t ed25519 -a 100 -C "admin@homelab"
 ssh-copy-id -i ~/.ssh/id_ed25519.pub admin@<server-ip>
-ssh admin@<server-ip>          # must log in with the key, not a password
+ssh admin@<server-ip>            # must log in with the key, not a password
 
 # --- SSH (on the server, inside the ssh/ folder) ---
 #     edit 00-hardening.conf first: set AllowUsers and ListenAddress
