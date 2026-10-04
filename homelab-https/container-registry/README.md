@@ -6,7 +6,7 @@ Forgejo already hosts my code and runs my CI, so I planned to push app images to
 
 But most of the complexity isn't Forgejo's fault. It comes from where images get pulled, and any registry inside the cluster runs into it.
 
-Placeholders: `example.com` is your domain, `<traefik-ip>` is the ClusterIP of Traefik's Service, and `<registry-ip>` is the registry Service's pinned ClusterIP. `<app>` and `<tag>` name an image.
+Placeholders: `<registry-ip>` is the registry Service's pinned ClusterIP, and `<app>` and `<tag>` name an image.
 
 ## The node pulls the image, not the pod
 
@@ -21,7 +21,7 @@ My registry pod already got around rule 1 with a pinned ClusterIP, since an addr
 
 ## What Forgejo's registry adds on top
 
-Forgejo's registry needs the same reachable name and certificate as any other registry. The extra work comes from its login flow.
+Forgejo's registry runs into the same two rules. On top of them comes its login flow.
 
 A client's first request gets a `401` whose `WWW-Authenticate` header says where to fetch a token, and [Forgejo builds that URL from its `ROOT_URL`](https://codeberg.org/forgejo/forgejo/src/tag/v15.0.9/routers/api/packages/container/container.go#L120). Mine is a name only my tailnet can reach, so a node would be sent to an address it can't open.
 
@@ -34,57 +34,61 @@ Working around that took:
 
 That's a lot of moving parts for a cluster with one user.
 
+## One exception covers both rules: localhost
+
+containerd treats `localhost` as a special case. The name needs no DNS, and containerd accepts a plain-HTTP registry there without any node config.
+
+So if every node can reach the registry on its own `localhost:5000`, both rules stop mattering. No DNS record, no certificate, no node config.
+
 ## What I run instead
 
-The registry pod runs the official [`registry`](https://hub.docker.com/_/registry) image: [`deployment.yaml`](deployment.yaml), [`service.yaml`](service.yaml) and [`pvc.yaml`](pvc.yaml). It only needed a name the nodes can reach over HTTPS:
+The registry pod runs the official [`registry`](https://hub.docker.com/_/registry) image: [`deployment.yaml`](deployment.yaml), [`service.yaml`](service.yaml) and [`pvc.yaml`](pvc.yaml). It runs on one node, so every node gets a small forwarder: a DaemonSet of the official [`haproxy`](https://hub.docker.com/_/haproxy) image that passes its node's `localhost:5000` to the registry Service.
 
 ```text
-node (containerd) ──HTTPS──▶ registry.lab.example.com ──▶ Traefik (wildcard cert) ──▶ registry pod
-CI (BuildKit)     ──HTTP, in-cluster──────────────────────────────────────────────▶ registry pod
+node (containerd) ──HTTP──▶ localhost:5000 ──▶ haproxy on that node ──▶ registry pod
+CI (BuildKit)     ──HTTP, in-cluster──────────────────────────────────▶ registry pod
 ```
 
-Three pieces make that work:
-
-1. **A public DNS record that points at a ClusterIP.** In Cloudflare, `registry.lab` is an A record for `<traefik-ip>`, DNS only. It takes precedence over the `*.lab` wildcard for that one name.
-2. **Traefik's ClusterIP, pinned** so the record can't go stale if the Service is ever recreated. In k3s's `HelmChartConfig` for Traefik:
-
-   ```yaml
-   service:
-     spec:
-       type: ClusterIP
-       clusterIP: <traefik-ip>
-   ```
-
-   Use the address the Service already has. A live Service's ClusterIP can't change, so any other value makes the chart upgrade fail.
-3. **An Ingress for the registry** that routes only `/v2`, the registry API: [`ingress.yaml`](ingress.yaml). Traefik serves the [wildcard certificate](../traefik/) for every name, so it needs no `tls:` section.
-
-> The record works because kube-proxy routes ClusterIPs on every node, including connections that start on the node itself. Anywhere else, the address leads nowhere.
-
-Deployments then use the new name:
+The forwarder puts its port on the node with a `hostPort` bound to loopback ([`daemonset-proxy.yaml`](daemonset-proxy.yaml)):
 
 ```yaml
-image: registry.lab.example.com/<app>:<tag>
+ports:
+  - name: registry
+    containerPort: 5000
+    hostPort: 5000
+    hostIP: 127.0.0.1
+```
+
+> `hostIP` is the line that matters. Without it, the port opens on every address the node has, and an unauthenticated registry ends up on the LAN.
+
+The forwarding itself is a short HAProxy config in TCP mode: [`configmap-proxy.yaml`](configmap-proxy.yaml).
+
+> HAProxy 3.3 and later refuse to start when a frontend and a backend share a name. My first version named both `registry`, and the forwarder crashed on every node.
+
+Deployments then use:
+
+```yaml
+image: localhost:5000/<app>:<tag>
 ```
 
 CI didn't change. BuildKit still pushes to `<registry-ip>:5000/<app>:<tag>` over plain HTTP inside the cluster. The registry doesn't care which name a request used, so both names reach the same image.
 
-Because nodes now come through Traefik, the registry can finally have a NetworkPolicy. [`networkpolicy.yaml`](networkpolicy.yaml) admits only Traefik and BuildKit. Before, nodes pulled from it directly, and a pod selector can't match node traffic.
+Because nodes now come through the forwarders, the registry can finally have a NetworkPolicy. [`networkpolicy.yaml`](networkpolicy.yaml) admits only the forwarders and BuildKit. Before, nodes pulled from it directly, and a pod selector can't match node traffic.
 
 ## Checking that a node can pull
 
-On a node:
+On each node:
 
 ```bash
-getent ahostsv4 registry.lab.example.com
-curl -sS https://registry.lab.example.com/v2/<app>/tags/list
+curl -sS http://localhost:5000/v2/<app>/tags/list
 ```
 
-The first should print `<traefik-ip>`. The second should list the image's tags without a certificate error, which means containerd can pull too.
+A list of tags means containerd can pull from `localhost:5000` too.
 
 ## What I gave up
 
-- **No login.** Anything that can reach the registry can push and pull. Only my cluster and tailnet can reach it, and for a one-person homelab I accept that.
+- **No login.** Anything that reaches the registry can push and pull: programs on the nodes through `localhost:5000`, and CI. For a one-person homelab I accept that.
 - **No UI and no automatic cleanup.** Old tags stay until I delete them and run the registry's garbage collection.
-- **A dependency on DNS outside git.** Some routers and Pi-hole setups drop answers that contain private addresses, as DNS rebinding protection. On a node, `getent ahostsv4 10-43-0-1.sslip.io` should print `10.43.0.1` before you rely on this.
+- **A forwarder on every node.** A node can pull only while its forwarder runs. The loopback-only `hostPort` also depends on the CNI's port-mapping plugin, which k3s ships.
 
-If I want private images or a UI later, I'll go back to Forgejo's registry. The DNS record and the pinned Traefik address stay; the Ingress would point at Forgejo, and the header rewrite, tokens and pull secrets would come back.
+If I want private images or a UI later, I'll revisit Forgejo's registry. The forwarders could point at Forgejo instead, but the header rewrite, tokens and pull secrets would come back.

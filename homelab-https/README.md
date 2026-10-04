@@ -70,7 +70,7 @@ With my own domain, pods resolve the same name to Traefik inside the cluster and
 ├── dns/                  the wildcard record
 ├── traefik/              default certificate and HTTP-to-HTTPS redirect
 ├── forgejo/              Ingress, CoreDNS rewrite, ROOT_URL
-└── container-registry/   registry Ingress and NetworkPolicy, and why not Forgejo's registry
+└── container-registry/   registry, a per-node localhost forwarder, and why not Forgejo's registry
 ```
 
 Files next to each README are the manifests as they go into my GitOps repo, [homelab33](https://github.com/jddemonteverde/homelab33), with my domain and addresses replaced by placeholders.

@@ -8,14 +8,12 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    # Traefik carries the nodes' pulls (registry.lab); buildkitd pushes from CI.
+    # registry-proxy relays the nodes' pulls; buildkitd pushes from CI. Each node reaches its own
+    # proxy through the hostPort, which arrives as local-node traffic and needs no rule here.
     - from:
-        - namespaceSelector:
+        - podSelector:
             matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
+              app: registry-proxy
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: forgejo-runner

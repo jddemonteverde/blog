@@ -8,7 +8,7 @@ metadata:
 spec:
   type: ClusterIP
   # Pinned: CI pushes here (buildkitd's config and the app workflows use this address).
-  # Nodes pull through registry.lab.example.com instead; see ingress.yaml.
+  # Nodes pull through registry-proxy on localhost:5000 instead; see daemonset-proxy.yaml.
   clusterIP: <registry-ip>
   selector:
     app: registry
