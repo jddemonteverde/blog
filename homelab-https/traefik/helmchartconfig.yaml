@@ -1,0 +1,24 @@
+# k3s installs Traefik from its bundled chart; a HelmChartConfig overrides that chart's values.
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    # Traefik can read every Secret; keep it off the node where CI runs.
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: "true"
+    # No LAN listener: k3s's ServiceLB only exposes LoadBalancer Services on the nodes.
+    service:
+      spec:
+        type: ClusterIP
+    # Add only after every app has moved to its lab.example.com name.
+    ports:
+      web:
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true

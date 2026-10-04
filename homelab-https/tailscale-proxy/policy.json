@@ -1,0 +1,12 @@
+{
+  "tagOwners": {
+    "tag:k8s-ingress": ["autogroup:admin"]
+  },
+  "grants": [
+    {
+      "src": ["autogroup:member"],
+      "dst": ["tag:k8s-ingress"],
+      "ip":  ["tcp:80", "tcp:443"]
+    }
+  ]
+}

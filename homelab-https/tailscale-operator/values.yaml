@@ -1,0 +1,9 @@
+# The operator holds the OAuth secret; keep it off the node where CI runs.
+# Setting nodeSelector replaces the chart default, so the OS label is repeated.
+operatorConfig:
+  nodeSelector:
+    kubernetes.io/os: linux
+    node-role.kubernetes.io/control-plane: "true"
+# Every proxy the operator creates uses this ProxyClass (proxyclass.yaml).
+proxyConfig:
+  defaultProxyClass: control-plane

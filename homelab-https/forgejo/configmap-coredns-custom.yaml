@@ -1,0 +1,13 @@
+# k3s's CoreDNS imports *.override keys from this ConfigMap. Actions jobs check
+# out code from Forgejo's ROOT_URL; this keeps that lookup inside the cluster.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  forgejo.override: |
+    rewrite stop {
+      name exact forgejo.lab.example.com traefik.kube-system.svc.cluster.local
+      answer auto
+    }

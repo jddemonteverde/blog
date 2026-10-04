@@ -1,0 +1,23 @@
+# Traefik on the tailnet as the Tailscale Service svc:lab. k3s's own Traefik
+# Service is untouched; ServiceLB ignores Services that set a loadBalancerClass.
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-tailnet
+  namespace: kube-system
+  annotations:
+    tailscale.com/proxy-group: ingress
+    tailscale.com/hostname: lab
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: traefik-kube-system
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+    - name: websecure
+      port: 443
+      targetPort: websecure

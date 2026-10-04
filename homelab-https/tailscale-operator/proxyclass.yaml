@@ -1,0 +1,12 @@
+# Each proxy holds a tailnet identity; keep proxies off the node where CI runs.
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: control-plane
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  statefulSet:
+    pod:
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
