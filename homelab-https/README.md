@@ -33,6 +33,7 @@ pods and CI jobs  ── CoreDNS sends forgejo.lab.example.com straight to Traef
 3. **[DNS](dns/):** a public wildcard record that points at that address.
 4. **[Traefik](traefik/):** the wildcard certificate as the default for every Ingress.
 5. **[Forgejo](forgejo/):** moving an app to its new name without breaking CI.
+6. **[Container registry](container-registry/):** a registry the nodes can pull from without node config, and why it isn't Forgejo's.
 
 Each step can be checked before the next one starts. The DNS record needs the address from step 2, and Traefik can't serve the certificate before step 1 issues it.
 
@@ -68,7 +69,8 @@ With my own domain, pods resolve the same name to Traefik inside the cluster and
 ├── tailscale-operator/   the operator alternative I evaluated first (not used)
 ├── dns/                  the wildcard record
 ├── traefik/              default certificate and HTTP-to-HTTPS redirect
-└── forgejo/              Ingress, CoreDNS rewrite, ROOT_URL
+├── forgejo/              Ingress, CoreDNS rewrite, ROOT_URL
+└── container-registry/   registry Ingress and NetworkPolicy, and why not Forgejo's registry
 ```
 
 Files next to each README are the manifests as they go into my GitOps repo, [homelab33](https://github.com/jddemonteverde/homelab33), with my domain and addresses replaced by placeholders.

@@ -1,0 +1,20 @@
+# Nodes pull images through this name. Its public DNS record points at Traefik's pinned ClusterIP,
+# so containerd gets HTTPS with the wildcard certificate and needs no node config.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: registry.lab.example.com
+      http:
+        paths:
+          - path: /v2
+            pathType: Prefix
+            backend:
+              service:
+                name: registry
+                port:
+                  number: 5000
