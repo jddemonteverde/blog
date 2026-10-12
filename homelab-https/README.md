@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: tailscale, tls, networking
+
 I want my homelab's web apps, Forgejo first, reachable from my laptop and phone wherever I am, over HTTPS with real certificates, and without opening anything to the internet. This series is how I'm setting that up on my two-node k3s cluster, one piece per post.
 
 The short version: one public wildcard DNS name, one Let's Encrypt wildcard certificate, and one fixed Tailscale address in front of Traefik.

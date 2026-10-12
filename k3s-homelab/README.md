@@ -2,6 +2,8 @@
 
 *September 22, 2026*
 
+Tags: kubernetes, linux
+
 I had an old PC and a laptop collecting dust, so I turned them into a small Kubernetes cluster to host stuff like Forgejo and my portfolio site. This is how I set it up and, more importantly, why I made the choices I did. Writing it down so I don't forget and so I can redo it if I ever nuke the thing.
 
 ## The hardware

@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: tls, kubernetes, networking
+
 With a wildcard certificate in the cluster, I don't want TLS settings in every Ingress. Traefik can serve one certificate as its default, and the Traefik that ships with k3s already turns on TLS for every route on its HTTPS port.
 
 Together, those mean an Ingress with a `*.lab.example.com` host is served over HTTPS without a `tls:` section at all.

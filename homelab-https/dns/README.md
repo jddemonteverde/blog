@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: networking, tailscale
+
 My devices need `forgejo.lab.example.com` to resolve to the Tailscale proxy from the [proxy post](../tailscale-proxy/), at home or anywhere else. I do that with one public wildcard record that points at a Tailscale address.
 
 Anyone can look the record up, but only my tailnet can reach the address behind it.

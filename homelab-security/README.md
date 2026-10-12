@@ -2,6 +2,8 @@
 
 *September 21, 2026*
 
+Tags: security, linux
+
 This is how I secure my Ubuntu servers at home before they run anything
 important. There are two parts, and they need to be done in this order:
 

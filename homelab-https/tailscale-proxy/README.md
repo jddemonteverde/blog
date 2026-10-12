@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: tailscale, kubernetes, networking
+
 My homelab apps should be reachable from any of my devices over Tailscale. Traefik already routes every app by hostname, so the cluster needs only one way onto the tailnet: a single Tailscale proxy in front of Traefik.
 
 I first planned this with the Tailscale Kubernetes operator, and [that write-up](../tailscale-operator/) is still here. I switched to one hand-made proxy instead, for the reasons below.

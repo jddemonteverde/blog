@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: tls, kubernetes, gitops
+
 My homelab services are only reachable over Tailscale, but I still want certificates that every browser and tool trusts. Let's Encrypt can issue them for services that aren't on the internet at all, as long as the proof of ownership happens in DNS.
 
 This post sets up cert-manager in k3s, through Argo CD, to get one wildcard certificate for `*.lab.example.com` and keep it renewed.

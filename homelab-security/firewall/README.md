@@ -2,6 +2,8 @@
 
 *September 21, 2026*
 
+Tags: security, linux
+
 This is the host firewall I run on my Ubuntu servers. It uses UFW, blocks
 everything coming in by default, and only opens what the server actually
 needs. It's written for k3s nodes but works on a plain server too.

@@ -2,6 +2,8 @@
 
 *October 4, 2026*
 
+Tags: forgejo, ci, kubernetes
+
 Most apps move to their new name with a one-line Ingress change. Forgejo needs more care, because it puts its own URL into everything it generates: clone URLs, redirects, and the context every Forgejo Actions job runs with.
 
 The part that's easy to miss is CI. Jobs run in pods, pods aren't on my tailnet, and `actions/checkout` clones from Forgejo's own URL.
