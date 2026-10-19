@@ -2,7 +2,9 @@
 
 *October 4, 2026*
 
-Tags: tls, networking
+Tags: networking, security
+
+Tools: tailscale, traefik, lets-encrypt, k3s
 
 I want my homelab's web apps, Forgejo first, reachable from my laptop and phone wherever I am, over HTTPS with real certificates, and without opening anything to the internet. This series is how I'm setting that up on my two-node k3s cluster, one piece per post.
 

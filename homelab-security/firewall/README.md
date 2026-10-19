@@ -2,7 +2,9 @@
 
 *September 21, 2026*
 
-Tags: security, linux, scripting
+Tags: security, linux
+
+Tools: ubuntu, bash
 
 This is the host firewall I run on my Ubuntu servers. It uses UFW, blocks
 everything coming in by default, and only opens what the server actually

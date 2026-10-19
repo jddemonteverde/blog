@@ -2,7 +2,9 @@
 
 *September 22, 2026*
 
-Tags: security, gitops, kubernetes
+Tags: security, gitops
+
+Tools: sealed-secrets, argo-cd, kubernetes
 
 My homelab cluster is managed from a public GitHub repo ([homelab33](https://github.com/jddemonteverde/homelab33)). Argo CD watches `main` and applies whatever is there, so every file I commit is both live in the cluster and visible to the whole internet. That's fine for Deployments and Ingresses. It is not fine for Forgejo's `SECRET_KEY`, database passwords, or anything else that has to reach a pod as a Kubernetes `Secret`.
 

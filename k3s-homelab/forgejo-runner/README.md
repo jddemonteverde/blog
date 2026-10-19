@@ -2,7 +2,9 @@
 
 *September 24, 2026*
 
-Tags: ci-cd, docker, kubernetes
+Tags: ci-cd, containers
+
+Tools: forgejo, docker, kubernetes
 
 Forgejo doesn't run CI jobs itself. A separate program, Forgejo Runner, asks the instance for jobs and runs each one in a container.
 

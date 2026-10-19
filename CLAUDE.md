@@ -125,7 +125,7 @@ Use the date of the commit that first added the post. If the post is not committ
 
 ## Tags
 
-Put the post's topics on the line after the date:
+Put the post's topics and tools on the lines after the date, each in its own paragraph:
 
 ```markdown
 # Using OIDC to Authenticate GitHub Actions with AWS
@@ -133,28 +133,44 @@ Put the post's topics on the line after the date:
 *September 21, 2026*
 
 Tags: security, ci-cd
+
+Tools: github-actions, aws
 ```
 
-Readers filter the blog by these, so every post needs the line. Many of those readers are recruiters matching posts against a job ad, so a tag is a skill as job ads name it, not a product the post uses.
+Readers filter the blog by both, so every post needs the `Tags:` line, and the `Tools:` line whenever the post is about a specific tool. Many of those readers are recruiters matching posts against a job ad. There are two kinds of tag:
 
-* Use one to three tags, comma-separated, the main skill first.
-* Tags are lowercase, with hyphens between words.
-* A tag names what the post teaches, not every tool it mentions.
-* Name the post's main tools in the opening paragraph. The site's search reads the title, the tags and that paragraph, not the rest of the post.
+* **Topics** (`Tags:`) are broad skills: one to three, the main one first.
+* **Tools** (`Tools:`) are the products the post is mainly about, the main one first, usually no more than four. Not every tool the post mentions.
 
-Choose from this list:
+Both are lowercase, comma-separated, with hyphens between words. Name the post's main tools in the opening paragraph too: the site's search reads the title, the tags and that paragraph, not the rest of the post.
 
-* `kubernetes`: k3s and anything running in the cluster
-* `networking`: DNS, ingress, routing, firewalls, remote access
-* `security`: hardening, access control, keeping secrets safe
-* `linux`: the host operating system and its services
-* `tls`: certificates and HTTPS
+Choose topics from this list:
+
+* `cloud`: Azure, AWS, Google Cloud, DigitalOcean
+* `containers`: Kubernetes, k3s, Helm, Kustomize, Docker, and anything running in the cluster
+* `gitops`: cluster state kept in Git and applied by Argo CD or Flux
 * `ci-cd`: pipelines, runners, builds and deploys
-* `docker`: images, registries, Dockerfiles, Compose
-* `gitops`: cluster state kept in Git and applied by Argo CD
-* `scripting`: Bash or Python scripts that automate a task
+* `networking`: DNS, ingress, routing, remote access
+* `security`: hardening, access control, certificates and TLS, keeping secrets safe
+* `observability`: metrics, dashboards, logs and alerts
+* `linux`: the host operating system, its services, and shell scripts
+* `development`: application code, frameworks, databases and tests
 
-Add a new tag only when a post needs one and none of these fits, and add it to this list in the same commit. Name it the way job ads write the skill, such as `infrastructure-as-code` or `monitoring`. Never add a tag before there is a post for it.
+Choose tools from this list:
+
+* Cloud: `azure`, `aws`, `google-cloud`, `digitalocean`
+* Containers: `kubernetes`, `k3s`, `helm`, `kustomize`, `docker`
+* GitOps: `argo-cd`, `flux-cd`
+* CI/CD: `forgejo`, `github-actions`, `buildkit`
+* Networking: `traefik`, `tailscale`, `pi-hole`
+* Security: `sealed-secrets`, `cert-manager`, `lets-encrypt`
+* Observability: `prometheus`, `grafana`
+* Linux: `ubuntu`, `bash`
+* Development: `typescript`, `nextjs`, `sqlite`, `playwright`
+
+A post on k3s lists `kubernetes` too when it's about Kubernetes in general, not only the distribution.
+
+These lists match the Tech Stack on the portfolio site, which refuses to build with a tag it doesn't know. Add a new topic or tool only when a post needs one and none of these fits, and add it to this list in the same commit. Name a topic the way job ads write the skill, such as `infrastructure-as-code`, and a tool by its product name, such as `terraform`. Never add one before there is a post for it.
 
 ## Opening
 

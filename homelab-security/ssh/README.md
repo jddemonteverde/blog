@@ -4,6 +4,8 @@
 
 Tags: security, linux
 
+Tools: ubuntu
+
 This is how I lock down SSH on my Ubuntu servers so the only way in is with
 my private key. No passwords, no root login, only my user.
 

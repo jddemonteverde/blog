@@ -2,7 +2,9 @@
 
 *October 4, 2026*
 
-Tags: ci-cd, kubernetes
+Tags: ci-cd, networking
+
+Tools: forgejo, kubernetes
 
 Most apps move to their new name with a one-line Ingress change. Forgejo needs more care, because it puts its own URL into everything it generates: clone URLs, redirects, and the context every Forgejo Actions job runs with.
 

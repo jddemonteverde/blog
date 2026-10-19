@@ -4,6 +4,8 @@
 
 Tags: security, linux
 
+Tools: ubuntu
+
 This is how I secure my Ubuntu servers at home before they run anything
 important. There are two parts, and they need to be done in this order:
 

@@ -4,6 +4,8 @@
 
 Tags: security, networking, linux
 
+Tools: tailscale, ubuntu
+
 This is how I reach my homelab server from anywhere without opening a
 single port on my router. At home I still SSH in over the LAN. Away from
 home I go through Tailscale. Both routes end up at the same SSH server,

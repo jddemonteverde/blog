@@ -2,7 +2,9 @@
 
 *October 4, 2026*
 
-Tags: tls, kubernetes, gitops
+Tags: security, gitops
+
+Tools: cert-manager, lets-encrypt, argo-cd, helm
 
 My homelab services are only reachable over Tailscale, but I still want certificates that every browser and tool trusts. Let's Encrypt can issue them for services that aren't on the internet at all, as long as the proof of ownership happens in DNS.
 
