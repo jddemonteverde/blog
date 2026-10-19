@@ -17,6 +17,8 @@ I had an old PC and a laptop collecting dust, so I turned them into a small Kube
 
 Both run Ubuntu 22.04 and stay on 24/7. k3s version at the time of writing: `v1.36.4+k3s1`.
 
+![The PC as node 1 with the laptop on top of it as node 2, next to a UPS, under a shelf holding a 5-port network switch and a surge protector power strip](images/hardware.jpg)
+
 In the commands below, `<server-ip>` is the PC's LAN IP, `<worker-ip>` is the laptop's, and `<lan-cidr>` is the LAN subnet. Replace them with your own.
 
 ## Why k3s

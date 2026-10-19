@@ -103,3 +103,7 @@ That file is a cluster-admin credential. Don't leave copies around.
 
 - [kubectx](https://github.com/ahmetb/kubectx) makes switching contexts a lot faster than `kubectl config use-context`.
 - Put the current context in your shell prompt (starship and powerlevel10k both support this). It's the cheapest insurance against running a `delete` on the wrong cluster.
+
+[k9s](https://k9scli.io) reads the same kubeconfig, so the homelab shows up there too. It names the context, cluster and user at the top left:
+
+![k9s on the homelab context, with the namespaces on the left and every pod with its CPU and memory on the right](images/k9s.png)

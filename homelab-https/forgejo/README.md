@@ -67,6 +67,10 @@ Forgejo itself keeps serving plain HTTP inside the cluster. TLS ends at Traefik,
 
 Clone over HTTPS. SSH isn't part of this series, because only ports 80 and 443 reach Traefik over the tailnet.
 
+The clone URL on each repository page now uses the new name:
+
+![A repository page on Forgejo with the HTTPS clone URL on forgejo.lab.example.com](images/forgejo-repo.png)
+
 Then point existing clones at the new URL:
 
 ```bash

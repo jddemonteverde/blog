@@ -166,6 +166,10 @@ jobs:
       - run: echo "runner works"
 ```
 
+Each push then shows up as a run in the repository's **Actions** tab. These are my portfolio's builds, one for each push to `main` and one for each version tag:
+
+![Forgejo Actions listing successful publish-image.yml runs, each with its commit, branch or tag, and duration](images/forgejo-actions.png)
+
 ## Slow Pulls From data.forgejo.org
 
 The first rollout took about 14 minutes. The 19.5 MB runner image took 13.5 minutes to download from `data.forgejo.org`, while the 135 MB `docker:dind` image came from Docker Hub in 15 seconds.
