@@ -2,7 +2,7 @@
 
 *October 4, 2026*
 
-Tags: networking, tailscale
+Tags: networking
 
 My devices need `forgejo.lab.example.com` to resolve to the Tailscale proxy from the [proxy post](../tailscale-proxy/), at home or anywhere else. I do that with one public wildcard record that points at a Tailscale address.
 

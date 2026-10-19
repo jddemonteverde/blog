@@ -2,7 +2,7 @@
 
 *October 4, 2026*
 
-Tags: ci, kubernetes, forgejo
+Tags: docker, kubernetes, ci-cd
 
 Forgejo already hosts my code and runs my CI, so I planned to push app images to its built-in container registry and have the cluster pull them from there. The plan grew into a second hostname, a rewritten response header, two access tokens, a private account and a sealed pull secret in every app namespace. I paused it and kept a plain registry pod instead.
 

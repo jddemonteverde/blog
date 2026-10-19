@@ -2,7 +2,7 @@
 
 *October 4, 2026*
 
-Tags: tailscale, kubernetes, networking
+Tags: networking, kubernetes
 
 My apps should be reachable from any of my devices over Tailscale, no matter which node Traefik happens to run on. The Tailscale Kubernetes operator does this by putting Traefik on my tailnet as a Tailscale Service with its own fixed address.
 

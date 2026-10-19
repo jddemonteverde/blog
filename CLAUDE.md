@@ -132,28 +132,29 @@ Put the post's topics on the line after the date:
 
 *September 21, 2026*
 
-Tags: security, ci
+Tags: security, ci-cd
 ```
 
-Readers filter the blog by these, so every post needs the line.
+Readers filter the blog by these, so every post needs the line. Many of those readers are recruiters matching posts against a job ad, so a tag is a skill as job ads name it, not a product the post uses.
 
-* Use one to three tags, comma-separated, most specific first.
+* Use one to three tags, comma-separated, the main skill first.
 * Tags are lowercase, with hyphens between words.
 * A tag names what the post teaches, not every tool it mentions.
+* Name the post's main tools in the opening paragraph. The site's search reads the title, the tags and that paragraph, not the rest of the post.
 
 Choose from this list:
 
 * `kubernetes`: k3s and anything running in the cluster
-* `networking`: DNS, ingress, routing, how traffic reaches a service
-* `tls`: certificates and HTTPS
-* `tailscale`: the tailnet, its policy, proxies and the operator
+* `networking`: DNS, ingress, routing, firewalls, remote access
 * `security`: hardening, access control, keeping secrets safe
-* `gitops`: Argo CD and config driven from a repository
-* `ci`: Forgejo Actions, runners, building and pulling images
-* `forgejo`: the Forgejo instance itself
-* `linux`: setting up an Ubuntu host directly
+* `linux`: the host operating system and its services
+* `tls`: certificates and HTTPS
+* `ci-cd`: pipelines, runners, builds and deploys
+* `docker`: images, registries, Dockerfiles, Compose
+* `gitops`: cluster state kept in Git and applied by Argo CD
+* `scripting`: Bash or Python scripts that automate a task
 
-Add a new tag only when none of these fits, and add it to this list in the same commit.
+Add a new tag only when a post needs one and none of these fits, and add it to this list in the same commit. Name it the way job ads write the skill, such as `infrastructure-as-code` or `monitoring`. Never add a tag before there is a post for it.
 
 ## Opening
 

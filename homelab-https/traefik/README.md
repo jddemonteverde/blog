@@ -2,7 +2,7 @@
 
 *October 4, 2026*
 
-Tags: tls, kubernetes, networking
+Tags: tls, networking, kubernetes
 
 With a wildcard certificate in the cluster, I don't want TLS settings in every Ingress. Traefik can serve one certificate as its default, and the Traefik that ships with k3s already turns on TLS for every route on its HTTPS port.
 
