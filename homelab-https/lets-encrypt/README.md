@@ -6,7 +6,7 @@ Tags: security, gitops
 
 Tools: cert-manager, lets-encrypt, argo-cd, helm
 
-My homelab services are only reachable over Tailscale, but I still want certificates that every browser and tool trusts. Let's Encrypt can issue them for services that aren't on the internet at all, as long as the proof of ownership happens in DNS.
+My homelab services under `lab.example.com` are only reachable over Tailscale, but I still want certificates that every browser and tool trusts. Let's Encrypt can issue them for services that aren't on the internet at all, as long as the proof of ownership happens in DNS.
 
 This post sets up cert-manager in k3s, through Argo CD, to get one wildcard certificate for `*.lab.example.com` and keep it renewed.
 
@@ -16,7 +16,7 @@ Placeholders: `example.com` is your domain. The Cloudflare token is typed at a p
 
 Let's Encrypt only issues a certificate to someone who proves they control the name. There are two common proofs:
 
-- **HTTP-01:** serve a file on the name over port 80, from the public internet. My services aren't on the internet, so this can't work.
+- **HTTP-01:** serve a file on the name over port 80, from the public internet. Those services aren't on the internet, so this can't work.
 - **DNS-01:** publish a TXT record at `_acme-challenge.lab.example.com`. It works for private services, and it's the only proof Let's Encrypt accepts for a wildcard.
 
 A wildcard also fits the rest of the setup. One certificate covers every app I add later, and public certificate logs show only `*.lab.example.com`, not the name of each service.

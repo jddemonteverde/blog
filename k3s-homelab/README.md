@@ -221,7 +221,7 @@ node-02   Ready    worker               v1.36.4+k3s1   <worker-ip>
   ```
   Then uninstall the agent on the laptop (`sudo /usr/local/bin/k3s-agent-uninstall.sh`) and reinstall it the same way. Three control planes, actual HA.
 - **NAS + NFS storage** for Forgejo and anything else with data I care about.
-- **Exposing the portfolio site.** Probably Cloudflare Tunnel rather than port forwarding, so nothing on the home network is open to the internet.
+- **Exposing the portfolio site.** Done: it's public now, through a Cloudflare Tunnel rather than port forwarding, so no port on the home network is open to the internet.
 - **Forgejo.**
 
 ## Useful stuff
