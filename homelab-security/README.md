@@ -62,15 +62,6 @@ sudo ./firewall.sh --server      # or --agent, or --no-k3s
 After each step, open a **new** SSH session to make sure you still get in
 before closing the one you kept as a safety net.
 
-## What's not here
-
-These come after the baseline and aren't covered in this repo yet:
-
-- Remote access over VPN (Tailscale or WireGuard) instead of LAN-only SSH
-- Exposing apps publicly: Cloudflare Tunnel vs port-forwarding 80/443
-- fail2ban, sysctl hardening, removing unused services
-- k3s install flags, Pod Security Standards, NetworkPolicies
-
 ## A note on what's safe to publish
 
 Everything in here is config and scripts. There are no keys, tokens, or

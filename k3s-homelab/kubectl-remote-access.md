@@ -22,7 +22,7 @@ So we make a copy, fix both, and bring that copy over.
 ## 1. On the server: make a cleaned-up copy
 
 ```bash
-sed -e 's/127.0.0.1/<server-ip>/' \
+sudo sed -e 's/127.0.0.1/<server-ip>/' \
     -e 's/\bdefault\b/homelab/g' \
     /etc/rancher/k3s/k3s.yaml > ~/homelab-kubeconfig.yaml
 ```

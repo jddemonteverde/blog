@@ -66,29 +66,29 @@ Get kernel updates and reboots done before the cluster exists, not after.
 ### 2. Firewall
 
 ```bash
-sudo ufw allow 6443/tcp                  # Kubernetes API
-sudo ufw allow 10250/tcp                 # kubelet (logs, exec, metrics)
-sudo ufw allow 8472/udp                  # Flannel VXLAN, pod traffic between nodes
-sudo ufw allow from 10.42.0.0/16 to any  # pod network
-sudo ufw allow from 10.43.0.0/16 to any  # service network
+sudo ufw allow from <lan-cidr> to any port 6443 proto tcp   # Kubernetes API
+sudo ufw allow from <lan-cidr> to any port 10250 proto tcp  # kubelet (logs, exec, metrics)
+sudo ufw allow from <lan-cidr> to any port 8472 proto udp   # Flannel VXLAN, pod traffic between nodes
+sudo ufw allow from 10.42.0.0/16 to any                     # pod network
+sudo ufw allow from 10.43.0.0/16 to any                     # service network
 sudo ufw reload
 ```
 
 `10.42.0.0/16` and `10.43.0.0/16` are the k3s default pod and service CIDRs. Without these, pods can't talk to each other and `kubectl logs` breaks.
+
+The other three ports only need the LAN, where the worker and my laptop are. A rule without `from` accepts any address, IPv6 included.
 
 ### 3. Install k3s
 
 ```bash
 curl -sfL https://get.k3s.io | sh -s - server \
   --cluster-init \
-  --node-ip <server-ip> \
-  --write-kubeconfig-mode 644
+  --node-ip <server-ip>
 ```
 
 - `server`: this node runs the control plane.
 - `--cluster-init`: use embedded etcd instead of SQLite (see above).
 - `--node-ip`: the machine has both an IPv4 and a public IPv6 address. Pinning it makes sure the cluster advertises the LAN IPv4 so other nodes join over that.
-- `--write-kubeconfig-mode 644`: lets my normal user read the kubeconfig so `kubectl` works without sudo. Fine on a personal box.
 
 If you already installed without `--cluster-init`, just run the same command again with it added. The installer rewrites the systemd unit and restarts k3s, and k3s migrates the SQLite data into etcd on startup. Pass *all* your flags again because it replaces the unit file, it doesn't append. Takes about a minute of API downtime.
 
@@ -106,11 +106,14 @@ Node should be `Ready` with roles `control-plane,etcd`. All pods in `kube-system
 
 ```bash
 mkdir -p ~/.kube
-cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown "$USER": ~/.kube/config
 chmod 600 ~/.kube/config
 ```
 
 `kubectl`, Helm, k9s etc. all look in `~/.kube/config` by default.
+
+k3s keeps the original readable only by root. It's a cluster-admin credential, so I copy it for my user rather than loosen it with `--write-kubeconfig-mode`.
 
 ### 6. Grab the join token
 
